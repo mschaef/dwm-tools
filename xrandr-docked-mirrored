@@ -1,0 +1,5 @@
+#!/bin/sh
+
+xrandr \
+    --output LVDS1 --auto --rotate normal --pos 0x0 \
+    --output VGA1 --auto --rotate normal --same-as LVDS1
