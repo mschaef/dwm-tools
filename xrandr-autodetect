@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Two displays is assumed to mean 'docked'
+
+if [ `xrandr |grep [[:space:]]connected | wc -l` -eq 2 ]; then
+    echo Docked
+
+    . ${DIR}/xrandr-docked
+else
+    echo Undocked
+
+    . ${DIR}/xrandr-laptop-only
+fi
