@@ -245,6 +245,7 @@ static void updatewindowtype(Client *c);
 static void updatetitle(Client *c);
 static void updatewmhints(Client *c);
 static void view(const Arg *arg);
+static void viewshift(const Arg *arg);
 static Client *wintoclient(Window w);
 static Monitor *wintomon(Window w);
 static int xerror(Display *dpy, XErrorEvent *ee);
@@ -2017,6 +2018,29 @@ view(const Arg *arg) {
 	selmon->seltags ^= 1; /* toggle sel tagset */
 	if(arg->ui & TAGMASK)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
+	focus(NULL);
+	arrange(selmon);
+}
+
+void
+viewshift(const Arg *arg) {
+
+    unsigned int newtags = selmon->tagset[selmon->seltags];
+
+    if (arg->i > 0)
+         newtags = (newtags << 1) & TAGMASK;
+    else
+         newtags = (newtags >> 1) & TAGMASK;
+
+    if (newtags == 0)
+         return;
+    
+	if(newtags == selmon->tagset[selmon->seltags])
+		return;
+
+	selmon->seltags ^= 1; /* toggle sel tagset */
+	if(newtags)
+		selmon->tagset[selmon->seltags] = newtags;
 	focus(NULL);
 	arrange(selmon);
 }
